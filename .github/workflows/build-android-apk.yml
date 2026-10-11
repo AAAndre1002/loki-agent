@@ -32,16 +32,15 @@ jobs:
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
-        with:
-          packages: ''
 
       - name: Install Android 35 SDK
-        run: |
-          sdkmanager --install "platforms;android-35" "build-tools;35.0.0"
+        run: sdkmanager --install "platforms;android-35" "build-tools;35.0.0"
 
       - name: Unpack source and build APK
         run: |
-          unzip -q Loki-Agent-Android-v0.3.0.zip -d build-src
+          ZIP_PATH="$(find . -maxdepth 1 -type f -name 'Loki-Agent-Android-v*.zip' -print | sort -V | tail -n 1)"
+          test -n "$ZIP_PATH"
+          unzip -q "$ZIP_PATH" -d build-src
           gradle --no-daemon --stacktrace -p build-src/LokiAgent assembleDebug
 
       - name: Save APK artifact
