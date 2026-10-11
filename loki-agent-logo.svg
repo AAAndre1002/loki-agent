@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="loki" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12D7F5"/>
+      <stop offset="1" stop-color="#7934FF"/>
+    </linearGradient>
+    <linearGradient id="beak" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9B54FF"/>
+      <stop offset="1" stop-color="#5A22E8"/>
+    </linearGradient>
+  </defs>
+  <rect x="24" y="24" width="976" height="976" rx="220" fill="#0B1024"/>
+  <path d="M182 178h146v500h514v146H182z" fill="url(#loki)"/>
+  <path d="M512 228 704 342l38 205-80 132-150 91-150-91-80-132 38-205z" fill="#DCE5F3"/>
+  <path d="M512 284 660 372l28 157-67 105-109 67-109-67-67-105 28-157z" fill="#10172C"/>
+  <path d="m512 292 115 74-115 70-115-70z" fill="#12D7F5"/>
+  <path d="m338 527 103 28-97 72-68-65zM686 527l62 35-68 65-97-72z" fill="#12D7F5"/>
+  <path d="m512 506 112 76-112 181-112-181z" fill="url(#beak)"/>
+  <path d="M505 520h14v207h-14z" fill="#DCE5F3" opacity=".9"/>
+</svg>
