@@ -1,50 +1,36 @@
-# Loki Agent (Android) — protótipo 0.2
+# Loki Agent para Android — v0.3.0
 
-Assistente Android open source, com entrada por voz, resposta falada, alguns comandos locais explícitos e ligação opcional a um endpoint de chat compatível com OpenAI (por exemplo, Ollama).
+Assistente Android open source com comandos de voz, ações locais explícitas, controlos de acessibilidade opcionais e ligação a modelos compatíveis com Ollama.
 
-**Código-fonte completo:** [Loki-Agent-Android-v0.2.zip](./Loki-Agent-Android-v0.2.zip). As próximas versões serão publicadas no mesmo repositório.
+**Código-fonte:** [Loki-Agent-Android-v0.3.0.zip](./Loki-Agent-Android-v0.3.0.zip)
 
-## Estado atual
+## Funcionalidades
 
-- Reconhecimento de voz em português (através do serviço de voz configurado no Android).
-- Resposta por síntese de voz em português.
-- Comandos locais allow-listed: abrir YouTube, WhatsApp, Maps, Chrome ou Definições; dizer as horas; pesquisar na web.
-- Perguntas livres enviadas ao endpoint/modelo que o utilizador configurar.
-- Serviço de Acessibilidade opcional com microfone flutuante para usar os controlos noutras apps: ler texto visível, subir/descer, voltar, abrir ecrã inicial e tocar num elemento com texto indicado — cada toque pede confirmação.
-- Não executa ações sugeridas pelo modelo: respostas de IA são texto. A execução no telemóvel fica limitada a comandos explícitos e pré-definidos.
+- Reconhecimento e resposta por voz em português.
+- Abre aplicações pelo nome visível no launcher, além de atalhos conhecidos.
+- Pesquisa na web e consulta as horas.
+- Ligação opcional ao Ollama ou a outro endpoint compatível com a API OpenAI.
+- Serviço opcional de Acessibilidade para ler texto exposto no ecrã, navegar e tocar num elemento indicado. Cada toque exige confirmação.
+- As respostas do modelo nunca são executadas como comandos.
 
-## Abrir no Android Studio
+## Descarregar o APK de teste
 
-1. Instala Android Studio e JDK 17.
-2. Abre a pasta `LokiAgent` como projeto Gradle.
-3. Permite o download do Android Gradle Plugin e da plataforma SDK 35.
-4. Liga o telemóvel com depuração USB ou usa um emulador e carrega em **Run**.
-5. Permite o acesso ao microfone quando a app pedir.
+1. Abre o separador **Actions** deste repositório.
+2. Escolhe a execução mais recente do workflow **Build Android APK** e confirma que terminou com sucesso.
+3. Na página da execução, descarrega o artefacto **Loki-Agent-debug-APK**.
 
-## Ligar a Ollama
+O artefacto fica disponível durante 14 dias. É um APK de depuração para testes, não uma versão de lançamento assinada para publicação. Se ainda não existir uma execução concluída com sucesso, aguarda que a compilação termine.
 
-O Ollama tem de estar acessível na rede. No ecrã da app, configura o URL completo do endpoint `/v1/chat/completions`, por exemplo `http://192.168.1.20:11434/v1/chat/completions`, e o identificador do modelo instalado, como `qwen2.5:3b`.
+## Compilar localmente
 
-- Substitui o IP pelo endereço real do computador/servidor.
-- O telemóvel e o servidor têm de conseguir comunicar na mesma rede.
-- O servidor tem de aceitar pedidos da rede local e disponibilizar a API OpenAI compatível.
-- O URL é guardado localmente nas preferências da app. O texto do pedido é enviado para esse servidor quando o endpoint está configurado.
-- Este protótipo permite HTTP para facilitar testes locais. Para uso público, configura HTTPS e autenticação; não exponhas Ollama diretamente à Internet.
+Extrai o ZIP e abre a pasta `LokiAgent` no Android Studio, com JDK 17 e Android SDK 35. Também podes escolher **Build → Build Bundle(s) / APK(s) → Build APK(s)**. O APK debug é criado em `app/build/outputs/apk/debug/app-debug.apk`.
 
-## Ativar os controlos de acessibilidade
+## Configurar Ollama
 
-1. Abre a app e toca em **Ativar / gerir acessibilidade**.
-2. Nas Definições do Android, escolhe **Loki Agent — controlos autorizados** e ativa o serviço.
-3. Volta à app e deixa o serviço ativo. Deve aparecer um microfone flutuante sobre as outras apps.
-4. Abre outra app, toca no microfone flutuante e diz **“lê o ecrã”**, **“desce”**, **“sobe”**, **“voltar”**, **“ecrã inicial”** ou **“toca em [texto]”**.
-5. O toque num elemento apresenta uma confirmação antes de agir.
+Na app, indica o URL completo do endpoint `/v1/chat/completions` (por exemplo `http://192.168.1.20:11434/v1/chat/completions`) e o nome de um modelo instalado, como `qwen2.5:3b`. O telemóvel e o servidor têm de estar na mesma rede. Não exponhas Ollama diretamente à Internet; usa HTTPS e autenticação para acessos remotos.
 
-O serviço de acessibilidade pode ver o texto que o Android expõe no ecrã enquanto está ativo. O protótipo não guarda nem envia esse texto para o modelo; a leitura é apresentada/falada localmente. O Android e certas apps podem ocultar partes do conteúdo ou bloquear ações.
+## Acessibilidade e segurança
 
-## Limites e segurança
+A Acessibilidade é opcional e tem de ser ativada manualmente nas Definições do Android. Enquanto ativa, o serviço pode ler texto que o sistema expõe, mas este protótipo não o guarda nem o envia ao modelo. Algumas aplicações ocultam conteúdo ou bloqueiam controlos. Não há palavra de ativação nem escuta contínua. Chamadas, mensagens e ações financeiras não são executadas automaticamente.
 
-Android exige consentimento explícito para a permissão especial de acessibilidade; algumas apps e operações continuam isoladas pelo sistema. Não há palavra de ativação nem escuta contínua: a voz só é captada quando tocas no microfone flutuante. Envio automático de mensagens, chamadas e ações financeiras não estão implementados. Respostas do modelo nunca são convertidas em ações no dispositivo.
-
-## Licença
-
-MIT — podes reutilizar e modificar este protótipo; o ficheiro `LICENSE` já está incluído.
+Licença MIT — ver [`LICENSE`](./LICENSE).
