@@ -1,36 +1,50 @@
-# Loki Agent para Android — v0.3.0
+# Loki Agent — versão 0.4.0
 
-Assistente Android open source com comandos de voz, ações locais explícitas, controlos de acessibilidade opcionais e ligação a modelos compatíveis com Ollama.
+Assistente Android open source com voz, contexto de conversa, ligações a modelos de IA e controlos do telemóvel sujeitos às permissões e confirmações do Android.
 
-**Código-fonte:** [Loki-Agent-Android-v0.3.0.zip](./Loki-Agent-Android-v0.3.0.zip)
+![Logótipo Loki Agent](loki-agent-logo.png)
 
-## Funcionalidades
+**Código-fonte completo:** [Loki-Agent-Android-v0.4.0.zip](./Loki-Agent-Android-v0.4.0.zip)  
+**Logótipo vetorial:** [loki-agent-logo.svg](./loki-agent-logo.svg) · [PNG](./loki-agent-logo.png)
 
-- Reconhecimento e resposta por voz em português.
-- Abre aplicações pelo nome visível no launcher, além de atalhos conhecidos.
-- Pesquisa na web e consulta as horas.
-- Ligação opcional ao Ollama ou a outro endpoint compatível com a API OpenAI.
-- Serviço opcional de Acessibilidade para ler texto exposto no ecrã, navegar e tocar num elemento indicado. Cada toque exige confirmação.
-- As respostas do modelo nunca são executadas como comandos.
+## O que mudou
 
-## Descarregar o APK de teste
+- Mantém até 6 trocas de conversa em memória, para perguntas de seguimento; podes limpar o contexto no ecrã.
+- Pode ligar diretamente à API Messages da Anthropic ou a endpoints compatíveis com OpenAI, usados por serviços como DeepSeek, Kimi/Moonshot e Ollama.
+- Chave API opcional, escondida no campo e **não guardada** depois de fechares a sessão.
+- Ajuda a escrever, rever e depurar código através do modelo ligado.
+- Abre apps pelo nome visível, pesquisa na web, diz as horas e, com acessibilidade ativada, lê ecrãs e navega. Cada toque em elemento pede confirmação.
+- Ícone e logótipo próprios do Loki Agent.
 
-1. Abre o separador **Actions** deste repositório.
-2. Escolhe a execução mais recente do workflow **Build Android APK** e confirma que terminou com sucesso.
-3. Na página da execução, descarrega o artefacto **Loki-Agent-debug-APK**.
+A qualidade e o custo dependem do modelo/serviço que configurares. O Loki Agent **não é uma cópia do Claude Code**: não tem terminal nem edita automaticamente projetos Android. As respostas dos modelos não são executadas como ações no dispositivo.
 
-O artefacto fica disponível durante 14 dias. É um APK de depuração para testes, não uma versão de lançamento assinada para publicação. Se ainda não existir uma execução concluída com sucesso, aguarda que a compilação termine.
+## Abrir no Android Studio
 
-## Compilar localmente
+1. Extrai o ZIP e abre a pasta `LokiAgent` no Android Studio.
+2. Instala JDK 17; aceita o download do Android Gradle Plugin e Android SDK 35.
+3. Liga o telemóvel por USB (depuração USB) ou usa um emulador e carrega em **Run**.
+4. Permite o microfone quando a app pedir.
 
-Extrai o ZIP e abre a pasta `LokiAgent` no Android Studio, com JDK 17 e Android SDK 35. Também podes escolher **Build → Build Bundle(s) / APK(s) → Build APK(s)**. O APK debug é criado em `app/build/outputs/apk/debug/app-debug.apk`.
+## Obter o APK de teste
 
-## Configurar Ollama
+O workflow **Build Android APK** compila automaticamente a fonte e publica o APK de depuração como artefacto na execução do GitHub Actions. Abre [Actions](../../actions/workflows/build-android-apk.yml), escolhe a execução mais recente concluída e descarrega o artefacto `Loki-Agent-debug-APK`. O artefacto fica disponível por tempo limitado (normalmente 14 dias). É uma versão de depuração para testes, não uma versão de publicação assinada.
 
-Na app, indica o URL completo do endpoint `/v1/chat/completions` (por exemplo `http://192.168.1.20:11434/v1/chat/completions`) e o nome de um modelo instalado, como `qwen2.5:3b`. O telemóvel e o servidor têm de estar na mesma rede. Não exponhas Ollama diretamente à Internet; usa HTTPS e autenticação para acessos remotos.
+No Android Studio, também podes usar **Build → Build Bundle(s) / APK(s) → Build APK(s)**. O APK de depuração sai em `app/build/outputs/apk/debug/app-debug.apk`.
 
-## Acessibilidade e segurança
+## Configurar um modelo
 
-A Acessibilidade é opcional e tem de ser ativada manualmente nas Definições do Android. Enquanto ativa, o serviço pode ler texto que o sistema expõe, mas este protótipo não o guarda nem o envia ao modelo. Algumas aplicações ocultam conteúdo ou bloqueiam controlos. Não há palavra de ativação nem escuta contínua. Chamadas, mensagens e ações financeiras não são executadas automaticamente.
+Preenche o endpoint completo, o ID do modelo e, se o serviço pedir, a chave API. Para Anthropic, escolhe o endpoint Messages da API; para DeepSeek, Kimi/Moonshot, Ollama ou gateways OpenAI-compatible, usa o endpoint documentado pelo respetivo fornecedor. O campo da chave não é persistido. Ollama pode correr num computador da tua rede; usa o endereço LAN desse computador, não `127.0.0.1` no telemóvel.
 
-Licença MIT — ver [`LICENSE`](./LICENSE).
+As mensagens e até 6 trocas anteriores são enviadas ao serviço configurado para manter contexto. Se não quiseres enviar dados para um serviço cloud, usa um modelo local com Ollama. Não exponhas uma instância Ollama diretamente à Internet.
+
+## Controlos de acessibilidade
+
+1. Toca em **Ativar / gerir acessibilidade** e ativa **Loki Agent — controlos autorizados** nas Definições.
+2. Com outra app aberta, toca no microfone flutuante e diz, por exemplo: “lê o ecrã”, “desce”, “voltar” ou “toca em pesquisar”.
+3. Confirma no diálogo antes de cada toque.
+
+O serviço pode ler o texto que o Android expõe enquanto está ativo. Esse texto não é guardado nem enviado ao modelo por iniciativa da app; algumas apps ocultam conteúdo ou bloqueiam controlos. Não há palavra de ativação nem escuta contínua.
+
+## Licença
+
+MIT — ver [`LICENSE`](./LICENSE).
